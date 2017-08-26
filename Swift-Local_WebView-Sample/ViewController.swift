@@ -61,9 +61,7 @@ class ViewController: UIViewController, WKUIDelegate, WKNavigationDelegate, WKSc
         
         // ## ドキュメント読み込み終了時に JavaScript を実行する
         // <http://qiita.com/takecian/items/9baf7e2bd611aac4791d>
-        // #private func loadUserScriptFile
-        let preLoadScript: NSString = loadUserScriptFile(path: jsFilePath, ext: jsFileExt)
-        excecUserScript(jsSource: preLoadScript)
+        excecUserScript(jsSource: loadUserScriptFile(path: jsFilePath, ext: jsFileExt))
 
         // 親ViewにWKWebViewを追加
         self.view.addSubview(webView)

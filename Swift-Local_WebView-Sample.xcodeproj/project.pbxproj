@@ -527,6 +527,7 @@
 				43D09B8B1F431D90001A443A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		43D09B8C1F431D90001A443A /* Build configuration list for PBXNativeTarget "Swift-Local_WebView-SampleTests" */ = {
 			isa = XCConfigurationList;
@@ -535,6 +536,7 @@
 				43D09B8E1F431D90001A443A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		43D09B8F1F431D90001A443A /* Build configuration list for PBXNativeTarget "Swift-Local_WebView-SampleUITests" */ = {
 			isa = XCConfigurationList;
@@ -543,6 +545,7 @@
 				43D09B911F431D90001A443A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
