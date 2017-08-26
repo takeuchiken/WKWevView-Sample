@@ -1,6 +1,6 @@
 //
 //  ViewController.swift
-//  Swift-Local_WebView-Sample2
+//  Swift-Local_WebView-Sample4
 //
 //  Created by 竹内健 on 2017/08/15.
 //  Copyright © 2017年 竹内健. All rights reserved.
