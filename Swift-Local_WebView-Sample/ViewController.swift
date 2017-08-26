@@ -38,22 +38,26 @@ class ViewController: UIViewController, WKUIDelegate, WKNavigationDelegate, WKSc
     
     private var webView = WKWebView()
     
+    //定数定義 @class ViewController______________________________
+    let kScheme = "native://";
+
+    //______________________________定数定義 @class ViewController
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
 
-        //定数定義____________________________________________________________
+        //定数定義 @func viewDidLoad______________________________
         // 外部URLを読み込む場合 #func loadAddressURL
         //let targetURL = "http://www.yahoo.co.jp"  //使わないのでコメントアウト
         // ローカルリソースを読み込む場合  #func loadLocalFileURL
         let localPath: String = "./LocalResouces/default/index"
         let fileExt: String = ".html"
+
         let jsFilePath: String = "./LocalResouces/default/common/js/PreLoad"
         let jsFileExt: String = "js"
-        //____________________________________________________________
-        //変数定義____________________________________________________________
-        
-        //____________________________________________________________
+        //______________________________定数定義 @func viewDidLoad
 
         
         // ネイティブ(Swiftコード)から渡された値を取得するプロトコルの登録
@@ -61,7 +65,10 @@ class ViewController: UIViewController, WKUIDelegate, WKNavigationDelegate, WKSc
         
         // ## ドキュメント読み込み終了時に JavaScript を実行する
         // <http://qiita.com/takecian/items/9baf7e2bd611aac4791d>
-        excecUserScript(jsSource: loadUserScriptFile(path: jsFilePath, ext: jsFileExt))
+        //
+        
+        let preLoadJS = loadUserScriptFile(path: jsFilePath, ext: jsFileExt)
+        self.excecUserScript(jsSource: preLoadJS)
 
         // 親ViewにWKWebViewを追加
         self.view.addSubview(webView)
@@ -72,7 +79,7 @@ class ViewController: UIViewController, WKUIDelegate, WKNavigationDelegate, WKSc
         // 外部URLにアクセス→停止中
         //loadAddressURL(siteUrl: targetURL)
         // ローカルのindex.htmlを読み込む
-        loadLocalFileURL(path: localPath, ext: fileExt)
+        self.loadLocalFileURL(path: localPath, ext: fileExt)
         
     }
     
@@ -160,7 +167,7 @@ class ViewController: UIViewController, WKUIDelegate, WKNavigationDelegate, WKSc
     }
     
     
-    let kScheme = "native://";
+    //let kScheme = "native://";
     
     /// クリック・アクション時、Post時に呼ばれるイベント
     internal func webView(_ webView: WKWebView,
