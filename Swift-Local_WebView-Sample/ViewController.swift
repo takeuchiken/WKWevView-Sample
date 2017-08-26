@@ -1,6 +1,6 @@
 //
 //  ViewController.swift
-//  Swift-Local_WebView-Sample4 Improved Ver.0.0.0
+//  Swift-Local_WebView-Sample2
 //
 //  Created by 竹内健 on 2017/08/15.
 //  Copyright © 2017年 竹内健. All rights reserved.
@@ -55,8 +55,8 @@ class ViewController: UIViewController, WKUIDelegate, WKNavigationDelegate, WKSc
         let localPath: String = "./LocalResouces/default/index"
         let fileExt: String = ".html"
         
-        let jsFilePath: String = "./LocalResouces/default/common/js/PreLoad"
-        let jsFileExt: String = "js"
+        let preLoadJSFilePath: String = "./LocalResouces/default/common/js/PreLoad"
+        let preLoadJSFileExt: String = "js"
         //______________________________定数定義 @func viewDidLoad
         
         
@@ -67,7 +67,7 @@ class ViewController: UIViewController, WKUIDelegate, WKNavigationDelegate, WKSc
         // <http://qiita.com/takecian/items/9baf7e2bd611aac4791d>
         //
         
-        let preLoadJS = loadUserScriptFile(path: jsFilePath, ext: jsFileExt)
+        let preLoadJS = loadUserScriptFile(path: preLoadJSFilePath, ext: preLoadJSFileExt)
         self.excecUserScript(jsSource: preLoadJS)
         
         // 親ViewにWKWebViewを追加
