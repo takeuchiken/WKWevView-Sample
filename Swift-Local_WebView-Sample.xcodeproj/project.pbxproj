@@ -14,6 +14,9 @@
 		43D09B6F1F431D90001A443A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 43D09B6D1F431D90001A443A /* LaunchScreen.storyboard */; };
 		43D09B7A1F431D90001A443A /* Swift_Local_WebView_SampleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D09B791F431D90001A443A /* Swift_Local_WebView_SampleTests.swift */; };
 		43D09B851F431D90001A443A /* Swift_Local_WebView_SampleUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D09B841F431D90001A443A /* Swift_Local_WebView_SampleUITests.swift */; };
+		43D09B941F431D9E001A443A /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43D09B931F431D9E001A443A /* WebKit.framework */; };
+		43D09B981F431EF5001A443A /* LocalResouces in Resources */ = {isa = PBXBuildFile; fileRef = 43D09B971F431EF5001A443A /* LocalResouces */; };
+		43D09B9A1F43217F001A443A /* GetNativeValues.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D09B991F43217F001A443A /* GetNativeValues.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +50,9 @@
 		43D09B801F431D90001A443A /* Swift-Local_WebView-SampleUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Swift-Local_WebView-SampleUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		43D09B841F431D90001A443A /* Swift_Local_WebView_SampleUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Swift_Local_WebView_SampleUITests.swift; sourceTree = "<group>"; };
 		43D09B861F431D90001A443A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		43D09B931F431D9E001A443A /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
+		43D09B971F431EF5001A443A /* LocalResouces */ = {isa = PBXFileReference; lastKnownFileType = folder; name = LocalResouces; path = ../../../LocalResouces; sourceTree = "<group>"; };
+		43D09B991F43217F001A443A /* GetNativeValues.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GetNativeValues.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +60,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				43D09B941F431D9E001A443A /* WebKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -81,6 +88,7 @@
 				43D09B781F431D90001A443A /* Swift-Local_WebView-SampleTests */,
 				43D09B831F431D90001A443A /* Swift-Local_WebView-SampleUITests */,
 				43D09B621F431D90001A443A /* Products */,
+				43D09B921F431D9E001A443A /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -97,12 +105,14 @@
 		43D09B631F431D90001A443A /* Swift-Local_WebView-Sample */ = {
 			isa = PBXGroup;
 			children = (
+				43D09B971F431EF5001A443A /* LocalResouces */,
 				43D09B641F431D90001A443A /* AppDelegate.swift */,
 				43D09B661F431D90001A443A /* ViewController.swift */,
 				43D09B681F431D90001A443A /* Main.storyboard */,
 				43D09B6B1F431D90001A443A /* Assets.xcassets */,
 				43D09B6D1F431D90001A443A /* LaunchScreen.storyboard */,
 				43D09B701F431D90001A443A /* Info.plist */,
+				43D09B991F43217F001A443A /* GetNativeValues.swift */,
 			);
 			path = "Swift-Local_WebView-Sample";
 			sourceTree = "<group>";
@@ -123,6 +133,14 @@
 				43D09B861F431D90001A443A /* Info.plist */,
 			);
 			path = "Swift-Local_WebView-SampleUITests";
+			sourceTree = "<group>";
+		};
+		43D09B921F431D9E001A443A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				43D09B931F431D9E001A443A /* WebKit.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -233,6 +251,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				43D09B6F1F431D90001A443A /* LaunchScreen.storyboard in Resources */,
+				43D09B981F431EF5001A443A /* LocalResouces in Resources */,
 				43D09B6C1F431D90001A443A /* Assets.xcassets in Resources */,
 				43D09B6A1F431D90001A443A /* Main.storyboard in Resources */,
 			);
@@ -259,6 +278,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				43D09B9A1F43217F001A443A /* GetNativeValues.swift in Sources */,
 				43D09B671F431D90001A443A /* ViewController.swift in Sources */,
 				43D09B651F431D90001A443A /* AppDelegate.swift in Sources */,
 			);
