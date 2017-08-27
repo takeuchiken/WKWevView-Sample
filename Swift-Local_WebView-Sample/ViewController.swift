@@ -30,18 +30,33 @@ import UIKit
 //WebKit Frameworkをimportする
 import WebKit
 
-class ViewController: UIViewController, WKUIDelegate, WKNavigationDelegate {
+class ViewController: UIViewController, WKUIDelegate, WKNavigationDelegate, WKScriptMessageHandler {
     
     @IBOutlet weak var viewFrame: WKWebView? = nil
     
-    
-    private var webView = WKWebView()
+    var webView: WKWebView!
     
     //定数定義 @class ViewController______________________________
 
     
     //______________________________定数定義 @class ViewController
-    
+
+    override func loadView() {
+        super.loadView()
+        let webContentController = WKUserContentController()
+        webContentController.add(self as WKScriptMessageHandler, name: "callbackHandler")
+        
+        let webConfiguration = WKWebViewConfiguration()
+
+        webView = WKWebView(frame: view.bounds, configuration: webConfiguration)
+        webView.uiDelegate = self
+        //webView.navigationDelegate = self
+        // 親ViewにWKWebViewを追加
+        view.addSubview(webView)
+        // WKWebViewを最背面に移動・・・StoryBoard上のオブジェクトが表示されなくなる
+        view.sendSubview(toBack: webView)
+        
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,41 +71,32 @@ class ViewController: UIViewController, WKUIDelegate, WKNavigationDelegate {
         
         //______________________________定数定義 @func viewDidLoad
         
-        // 画面表示
-        // WebViewを全画面の大きさで追加
-        self.webView.frame = view.bounds
-        // 親ViewにWKWebViewを追加
-        self.view.addSubview(self.webView)
-        // WKWebViewを最背面に移動
-        self.view.sendSubview(toBack: self.webView)
-        // Autolayoutを設定
-        self.webView.translatesAutoresizingMaskIntoConstraints = false
         
         print("\n初期化終了______________________________>>>\n")
 
         // ページのロード
         // 外部URLにアクセス→停止中
-        //loadAddressURL(siteUrl: targetURL)
+        //loadWebURL(WebURL: targetURL)
         // ローカルのindex.htmlを読み込む
-        self.loadLocalFileURL(path: localPath, ext: fileExt)
+        loadLocalURL(path: localPath, ext: fileExt)
         
     }
     
     
     
     // 外部URLを読み込む場合
-    private func loadAddressURL(siteUrl: String) {
-        let requestURL: URL = NSURL(string: siteUrl)! as URL
+    private func loadWebURL(webURL: String) {
+        let requestURL: URL = NSURL(string: webURL)! as URL
         let req = URLRequest(url: requestURL as URL)   // 外部のURLを読み込む場合（httpの場合Info.plistにNSAppTransportSecurityの指定が必要）
-        self.webView.load(req)
+        webView.load(req)
     }
     
     // ローカルリソースを読み込む場合
-    private func loadLocalFileURL(path: String, ext: String) {
+    private func loadLocalURL(path: String, ext: String) {
         let targetURL: URL = Bundle.main.url(forResource: path, withExtension: ext)!
         let req = URLRequest(url: targetURL as URL)
         print("String path=「\(String(describing: path))」\n______________________________\n")
-        self.webView.load(req)
+        webView.load(req)
     }
     
     
@@ -105,6 +111,11 @@ class ViewController: UIViewController, WKUIDelegate, WKNavigationDelegate {
         return jsSource as NSString
     }
     
+    internal func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {    // WKScriptMessageHandlerに必須の関数
+        // addScriptMessageHandlerで指定したコールバック名を判断して処理を分岐させることができます
+        if(message.name == "callbackHandler") {
+            print("JavaScript is sending a message \(message.body)")        }
+    }
     
     /// クリック・アクション時、Post時に呼ばれるイベント
     internal func webView(_ webView: WKWebView,
