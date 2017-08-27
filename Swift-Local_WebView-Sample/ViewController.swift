@@ -32,11 +32,8 @@ import WebKit
 
 class ViewController: UIViewController, WKUIDelegate, WKNavigationDelegate, WKScriptMessageHandler {
     
-    //@IBOutlet weak var viewFrame: UIWebView!    //WKWebViewとは関係がないStoryBoard上のオブジェクト
     @IBOutlet weak var viewFrame: WKWebView? = nil
-    
-    
-    private var webView = WKWebView()
+    var webView = WKWebView()
     
     //定数定義 @class ViewController______________________________
     let kScheme = "native://";
@@ -57,29 +54,29 @@ class ViewController: UIViewController, WKUIDelegate, WKNavigationDelegate, WKSc
         
         let preLoadJSFilePath: String = "./LocalResouces/default/common/js/PreLoad"
         let preLoadJSFileExt: String = "js"
-        //______________________________定数定義 @func viewDidLoad
+        //______________________________ 定数定義 @func viewDidLoad
         
         
         // ネイティブ(Swiftコード)から渡された値を取得するプロトコルの登録
         URLProtocol.registerClass(GetNativeValsProtocol.self)
         
         // ## ドキュメント読み込み終了時に JavaScript を実行する
-        // <http://qiita.com/takecian/items/9baf7e2bd611aac4791d>
-        //
-        
         let preLoadJS = loadUserScriptFile(path: preLoadJSFilePath, ext: preLoadJSFileExt)
-        self.excecUserScript(jsSource: preLoadJS)
+        setUserScript(jsSource: preLoadJS as String)
         
+
         // 親ViewにWKWebViewを追加
-        self.view.addSubview(webView)
+        view.addSubview(webView)
         // レイアウトを設定（後述）
-        self.setWebViewLayoutWithConstant(constant: 0.0)
+        setWebViewLayoutWithConstant(constant: 0.0)
         
+        print("\n初期化終了______________________________>>>\n")
+
         // ページのロード
         // 外部URLにアクセス→停止中
         //loadAddressURL(siteUrl: targetURL)
         // ローカルのindex.htmlを読み込む
-        self.loadLocalFileURL(path: localPath, ext: fileExt)
+        loadLocalFileURL(path: localPath, ext: fileExt)
         
     }
     
@@ -89,7 +86,7 @@ class ViewController: UIViewController, WKUIDelegate, WKNavigationDelegate, WKSc
     private func loadAddressURL(siteUrl: String) {
         let requestURL: URL = NSURL(string: siteUrl)! as URL
         let req = URLRequest(url: requestURL as URL)   // 外部のURLを読み込む場合（httpの場合Info.plistにNSAppTransportSecurityの指定が必要）
-        self.webView.load(req)
+        webView.load(req)
     }
     
     // ローカルリソースを読み込む場合
@@ -97,7 +94,7 @@ class ViewController: UIViewController, WKUIDelegate, WKNavigationDelegate, WKSc
         let targetURL: URL = Bundle.main.url(forResource: path, withExtension: ext)!
         let req = URLRequest(url: targetURL as URL)
         
-        self.webView.load(req)
+        webView.load(req)
     }
     
     
@@ -123,23 +120,26 @@ class ViewController: UIViewController, WKUIDelegate, WKNavigationDelegate, WKSc
      その場合は WKUserScript を作って WKWebViewConfiguration を WKWebView のコンストラクタに渡す方法があります。
      こちらがシンプルでいいですね。
      */
+    // ## WKWebViewを使ってNativeとWebページで情報をやり取りする方法
+    // <https://www.mitsue.co.jp/knowledge/blog/apps/201605/30_1721.html>
+    //
+    
     private func loadUserScriptFile(path: String, ext: String) -> NSString {
         var jsSource = ""
         let targetURL: URL = Bundle.main.url(forResource: path, withExtension: ext)!
         if let data = NSData(contentsOf: targetURL as URL){
             jsSource = String(NSString(data: data as Data, encoding: String.Encoding.utf8.rawValue)!)
         }
+        print("jsSource＠func loadUserScriptFile」= \n\( jsSource )\n______________________________\n")
         return jsSource as NSString
     }
     
-    private func excecUserScript(jsSource: NSString){
+    private func setUserScript(jsSource: String) {
         let userScript = WKUserScript(source: jsSource as String, injectionTime: .atDocumentEnd, forMainFrameOnly: true)
         
         let controller = WKUserContentController()
         controller.addUserScript(userScript)
         
-        // ## WKWebViewを使ってNativeとWebページで情報をやり取りする方法
-        // <https://www.mitsue.co.jp/knowledge/blog/apps/201605/30_1721.html>
         // JavaScript側の実行結果などを受け取りたい場合はコールバックを設定します
         controller.add(self as WKScriptMessageHandler, name: "callbackHandler")
         
@@ -147,19 +147,23 @@ class ViewController: UIViewController, WKUIDelegate, WKNavigationDelegate, WKSc
         configuration.userContentController = controller
         
         webView = WKWebView(frame: view.bounds, configuration: configuration)
-        
+        print("「＠func setUserScript」\n______________________________\n")
+
+    }
+    
+    /*
+     // ## ネイティブからJavaScriptを呼び出す
+     - 毎回evalすることになるし全部文字列にしないといけないのがアレだけど…
+     - JavaScriptの実行結果を扱いたい場合にはcompletionHandlerを指定してやる（省略可能）
+     */
+    private func evaluateJs(_ script: String) {
+        webView.evaluateJavaScript(script, completionHandler: {(result: Any?, error: Error?) in
+            //
+            print("evaluateJs\n script=「\(String(describing: script))」,\n result=「\(String(describing: result))」,\n error=「\(String(describing: error))」\n______________________________\n")
+        })
     }
     
     
-    // ## 戻るボタンの実装
-    // TODO:調査
-    //  前のページに戻るためには、goForward()ではなぜかうまく動かなかった。以下のようにするとうまく動く。
-    //        _ = webView?.backForwardList.forwardItem?.url
-    
-    
-    
-    // ## WKWebViewを使ってNativeとWebページで情報をやり取りする方法
-    // <https://www.mitsue.co.jp/knowledge/blog/apps/201605/30_1721.html>
     internal func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
         // addScriptMessageHandlerで指定したコールバック名を判断して処理を分岐させることができます
         if(message.name == "callbackHandler") {
@@ -167,23 +171,24 @@ class ViewController: UIViewController, WKUIDelegate, WKNavigationDelegate, WKSc
     }
     
     
-    //let kScheme = "native://";
-    
     /// クリック・アクション時、Post時に呼ばれるイベント
     internal func webView(_ webView: WKWebView,
                           decidePolicyFor navigationAction: WKNavigationAction,
                           decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
         
+        print("「＠func webView Start」\n______________________________\n")
+
         var policy = WKNavigationActionPolicy.allow
         if let url = navigationAction.request.url?.absoluteString {
             print("String url=「\(String(describing: url))」\n______________________________\n")
+            
+            // ### とりあえず JavaScript を実行する
+            // ただ JavaScript を実行すればいいのであれば evaluateJavaScript を使うのが簡単です。でもこの方法ではドキュメントロード時に実行する、といったことができません。
+            // URLのプレフィックスがkSchemeの文字列のアクションが起こった時、JavaScriptを実行し、Swiftに値を渡す。
             if url.hasPrefix(kScheme) {
                 evaluateJs("addTextNode('\(url)');")
                 evaluateJs("document.querySelector('h1').style.color = 'blue';")
                 // /*  テスト
-                // ### とりあえず JavaScript を実行する
-                // ただ JavaScript を実行すればいいのであれば evaluateJavaScript を使うのが簡単です。
-                // でもこの方法ではドキュメントロード時に実行する、といったことができません。
                 evaluateJs("document.getElementById('hogehoge').innerHTML = '';")
                 
                 // ### Swift3 でWKWebViewからpostしたフォームの値を取得する。入力した内容を保持するということがやりたい。
@@ -198,22 +203,17 @@ class ViewController: UIViewController, WKUIDelegate, WKNavigationDelegate, WKSc
             }
         }
         decisionHandler(policy)
+        print("「＠func webView End」\n______________________________\n")
+
     }
     
     
-    /*
-     // ## ネイティブからJavaScriptを呼び出す
-     - 毎回evalすることになるし全部文字列にしないといけないのがアレだけど…
-     - JavaScriptの実行結果を扱いたい場合にはcompletionHandlerを指定してやる（省略可能）
-     */
     
-    private func evaluateJs(_ script: String) {
-        webView.evaluateJavaScript(script, completionHandler: {(result: Any?, error: Error?) in
-            //
-            print("evaluateJs\n script=「\(String(describing: script))」,\n result=「\(String(describing: result))」,\n error=「\(String(describing: error))」\n______________________________\n")
-        })
-    }
-    
+
+    // ## 戻るボタンの実装
+    // TODO:調査
+    //  前のページに戻るためには、goForward()ではなぜかうまく動かなかった。以下のようにするとうまく動く。
+    //        _ = webView?.backForwardList.forwardItem?.url
     
     
     /*
@@ -223,28 +223,14 @@ class ViewController: UIViewController, WKUIDelegate, WKNavigationDelegate, WKSc
      */
     private func setWebViewLayoutWithConstant(constant: CGFloat){
         // Delegateの設定
-        self.webView.uiDelegate = self
-        self.webView.navigationDelegate = self
+        webView.uiDelegate = self
+        webView.navigationDelegate = self
         // WKWebViewを最背面に移動
-        self.view.sendSubview(toBack: webView)
+        view.sendSubview(toBack: webView)
         // Autolayoutを設定
-        self.webView.translatesAutoresizingMaskIntoConstraints = false
-        
-        // Constraintsを一度削除する
-        for constraint in self.view.constraints {
-            let secondItem: WKWebView? = constraint.secondItem as? WKWebView
-            if secondItem == self.webView {
-                self.view.removeConstraint(constraint)
-            }
-        }
-        // Constraintsを追加
-        self.view.addConstraint(NSLayoutConstraint(item: self.view, attribute: NSLayoutAttribute.width, relatedBy: NSLayoutRelation.equal, toItem: webView, attribute: NSLayoutAttribute.width, multiplier: 1.0, constant: 0.0))
-        self.view.addConstraint(NSLayoutConstraint(item: self.view, attribute: NSLayoutAttribute.centerX, relatedBy: NSLayoutRelation.equal, toItem: webView, attribute: NSLayoutAttribute.centerX, multiplier: 1.0, constant: 0.0))
-        self.view.addConstraint(NSLayoutConstraint(item: self.topLayoutGuide, attribute: NSLayoutAttribute.bottom, relatedBy: NSLayoutRelation.equal, toItem: webView, attribute: NSLayoutAttribute.top, multiplier: 1.0, constant: 0.0))
-        self.view.addConstraint(NSLayoutConstraint(item: self.bottomLayoutGuide, attribute: NSLayoutAttribute.top, relatedBy: NSLayoutRelation.equal, toItem: webView, attribute: NSLayoutAttribute.bottom, multiplier: 1.0, constant: constant))
-        
+        webView.translatesAutoresizingMaskIntoConstraints = false
         // ジェスチャーを許可
-        self.webView.allowsBackForwardNavigationGestures = true
+        webView.allowsBackForwardNavigationGestures = true
         
     }
     // 以上により、ViewController上でWKWebViewを表示させることができる。goBack()やreload()はUIWebViewと同様に使用できる。
