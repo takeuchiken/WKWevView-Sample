@@ -40,6 +40,10 @@ class ViewController: UIViewController, WKUIDelegate, WKNavigationDelegate, WKSc
     
     //______________________________定数定義 @class ViewController
     
+    override func loadView() {
+        super.loadView()
+        
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -190,15 +194,15 @@ class ViewController: UIViewController, WKUIDelegate, WKNavigationDelegate, WKSc
                 evaluateJs("document.querySelector('h1').style.color = 'blue';")
                 // /*  テスト
                 evaluateJs("document.getElementById('hogehoge').innerHTML = '';")
+                evaluateJs("greenHeader()")
                 
                 // ### Swift3 でWKWebViewからpostしたフォームの値を取得する。入力した内容を保持するということがやりたい。
                 // https://trueman-developer.blogspot.jp/2016/10/swift3-wkwebviewpost.html
                 
                 // テスト１ nameフィールドの値を取得
-                evaluateJs("document.form1.name.value")
+                //evaluateJs("document.form1.name.value")
                 // テスト２ // passwordフィールドの値を取得
-                evaluateJs("document.form1.password.value")
-                // テスト */
+                //evaluateJs("document.form1.password.value")
                 policy = WKNavigationActionPolicy.cancel  // ページ遷移を行わないようにcancelを返す
             }
         }
