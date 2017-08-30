@@ -43,38 +43,45 @@ class ViewController: UIViewController, WKUIDelegate, WKNavigationDelegate, WKSc
     override func loadView() {
         super.loadView()
         
+        printDebug(liner: "＠func loadView", content: "Start")
+        
+        //定数定義 @func loadView ______________________________
+        let preLoadJSFilePath: String = "./LocalResouces/default/common/js/PreLoad"
+        let preLoadJSFileExt: String = "js"
+        
+        //______________________________ 定数定義 @func loadView
+        
+        // ## ドキュメント読み込み終了時に JavaScript を実行する
+        //let preLoadJS = jsLoadFile(path: preLoadJSFilePath, ext: preLoadJSFileExt)
+        jsSetHandler(jsSource: jsLoadFile(path: preLoadJSFilePath, ext: preLoadJSFileExt) as String)
+        
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        //定数定義 @func viewDidLoad______________________________
+        printDebug(liner: "＠func viewDidLoad", content: "Start")
+        
+        //定数定義 @func viewDidLoad ______________________________
         // 外部URLを読み込む場合 #func loadAddressURL
         //let targetURL = "http://www.yahoo.co.jp"  //使わないのでコメントアウト
         // ローカルリソースを読み込む場合  #func loadLocalFileURL
         let localPath: String = "./LocalResouces/default/index"
         let fileExt: String = ".html"
         
-        let preLoadJSFilePath: String = "./LocalResouces/default/common/js/PreLoad"
-        let preLoadJSFileExt: String = "js"
         //______________________________ 定数定義 @func viewDidLoad
         
         
         // ネイティブ(Swiftコード)から渡された値を取得するプロトコルの登録
         URLProtocol.registerClass(GetNativeValsProtocol.self)
         
-        // ## ドキュメント読み込み終了時に JavaScript を実行する
-        let preLoadJS = loadUserScriptFile(path: preLoadJSFilePath, ext: preLoadJSFileExt)
-        setUserScript(jsSource: preLoadJS as String)
-        
-
         // 親ViewにWKWebViewを追加
         view.addSubview(webView)
         // レイアウトを設定（後述）
-        setWebViewLayoutWithConstant(constant: 0.0)
+        setWebViewLayoutWithConstant()
         
-        print("\n初期化終了______________________________>>>\n")
+        printDebug(liner: "＠func viewDidLoad", content: "初期化終了")
 
         // ページのロード
         // 外部URLにアクセス→停止中
@@ -85,7 +92,7 @@ class ViewController: UIViewController, WKUIDelegate, WKNavigationDelegate, WKSc
     }
     
     
-    
+    //____________________________________________________________
     // 外部URLを読み込む場合
     private func loadAddressURL(siteUrl: String) {
         let requestURL: URL = NSURL(string: siteUrl)! as URL
@@ -93,6 +100,7 @@ class ViewController: UIViewController, WKUIDelegate, WKNavigationDelegate, WKSc
         webView.load(req)
     }
     
+    //____________________________________________________________
     // ローカルリソースを読み込む場合
     private func loadLocalFileURL(path: String, ext: String) {
         let targetURL: URL = Bundle.main.url(forResource: path, withExtension: ext)!
@@ -128,17 +136,19 @@ class ViewController: UIViewController, WKUIDelegate, WKNavigationDelegate, WKSc
     // <https://www.mitsue.co.jp/knowledge/blog/apps/201605/30_1721.html>
     //
     
-    private func loadUserScriptFile(path: String, ext: String) -> NSString {
+    //____________________________________________________________
+    // 外部ローカルのJavaScriptファイルを読み込む
+    private func jsLoadFile(path: String, ext: String) -> NSString {
         var jsSource = ""
         let targetURL: URL = Bundle.main.url(forResource: path, withExtension: ext)!
         if let data = NSData(contentsOf: targetURL as URL){
             jsSource = String(NSString(data: data as Data, encoding: String.Encoding.utf8.rawValue)!)
         }
-        print("jsSource＠func loadUserScriptFile」= \n\( jsSource )\n______________________________\n")
+        printDebug(liner: "jsSource＠func jsLoadFile", content: "jsSource")
         return jsSource as NSString
     }
     
-    private func setUserScript(jsSource: String) {
+    private func jsSetHandler(jsSource: String) {
         let userScript = WKUserScript(source: jsSource as String, injectionTime: .atDocumentEnd, forMainFrameOnly: true)
         
         let controller = WKUserContentController()
@@ -151,7 +161,7 @@ class ViewController: UIViewController, WKUIDelegate, WKNavigationDelegate, WKSc
         configuration.userContentController = controller
         
         webView = WKWebView(frame: view.bounds, configuration: configuration)
-        print("「＠func setUserScript」\n______________________________\n")
+        printDebug(liner: "＠func jsSetHandler", content: "")
 
     }
     
@@ -160,10 +170,14 @@ class ViewController: UIViewController, WKUIDelegate, WKNavigationDelegate, WKSc
      - 毎回evalすることになるし全部文字列にしないといけないのがアレだけど…
      - JavaScriptの実行結果を扱いたい場合にはcompletionHandlerを指定してやる（省略可能）
      */
-    private func evaluateJs(_ script: String) {
+    private func jsEvaluate(_ script: String) {
         webView.evaluateJavaScript(script, completionHandler: {(result: Any?, error: Error?) in
             //
-            print("evaluateJs\n script=「\(String(describing: script))」,\n result=「\(String(describing: result))」,\n error=「\(String(describing: error))」\n______________________________\n")
+            self.printDebug(liner: "jsEvaluate",
+                            content: "script=「\(String(describing: script))」\n" +
+                            "result=「\(String(describing: result))」\n" +
+                            "error=「\(String(describing: error))」"
+            )
         })
     }
     
@@ -171,30 +185,30 @@ class ViewController: UIViewController, WKUIDelegate, WKNavigationDelegate, WKSc
     internal func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
         // addScriptMessageHandlerで指定したコールバック名を判断して処理を分岐させることができます
         if(message.name == "callbackHandler") {
-            print("JavaScript is sending a message \(message.body)")        }
+            print("JavaScript is sending a message \(message.body)")}
     }
     
     
-    /// クリック・アクション時、Post時に呼ばれるイベント
+    /// 初回ページロード、オンクリック・アクション時、Post時に呼ばれるイベント
     internal func webView(_ webView: WKWebView,
                           decidePolicyFor navigationAction: WKNavigationAction,
                           decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
         
-        print("「＠func webView Start」\n______________________________\n")
+        printDebug(liner: "「＠func webView Start」\n", content: "")
 
         var policy = WKNavigationActionPolicy.allow
         if let url = navigationAction.request.url?.absoluteString {
-            print("String url=「\(String(describing: url))」\n______________________________\n")
+            printDebug(liner: "String url", content: "「\(String(describing: url))」")
             
             // ### とりあえず JavaScript を実行する
             // ただ JavaScript を実行すればいいのであれば evaluateJavaScript を使うのが簡単です。でもこの方法ではドキュメントロード時に実行する、といったことができません。
             // URLのプレフィックスがkSchemeの文字列のアクションが起こった時、JavaScriptを実行し、Swiftに値を渡す。
             if url.hasPrefix(kScheme) {
-                evaluateJs("addTextNode('\(url)');")
-                evaluateJs("document.querySelector('h1').style.color = 'blue';")
+                jsEvaluate("addTextNode('\(url)');")
+                jsEvaluate("document.querySelector('h1').style.color = 'blue';")
                 // /*  テスト
-                evaluateJs("document.getElementById('hogehoge').innerHTML = '';")
-                evaluateJs("greenHeader()")
+                jsEvaluate("document.getElementById('hogehoge').innerHTML = '';")
+                jsEvaluate("greenHeader()")
                 
                 // ### Swift3 でWKWebViewからpostしたフォームの値を取得する。入力した内容を保持するということがやりたい。
                 // https://trueman-developer.blogspot.jp/2016/10/swift3-wkwebviewpost.html
@@ -207,7 +221,7 @@ class ViewController: UIViewController, WKUIDelegate, WKNavigationDelegate, WKSc
             }
         }
         decisionHandler(policy)
-        print("「＠func webView End」\n______________________________\n")
+        printDebug(liner: "「＠func webView End」", content:"")
 
     }
     
@@ -225,7 +239,7 @@ class ViewController: UIViewController, WKUIDelegate, WKNavigationDelegate, WKSc
      http://tech.blog.surbiton.jp/wkwebview/
      WKWebViewは、StoryBoard上で割り付けることが出来ない。他のパーツをStoryBoard上でAutolayout設定している場合は、Swift上でWKWebViewにAutolayout設定を行う。ConstraintはWebViewに対して指定するのではなく、親Viewに対して指定することに注意が必要である。
      */
-    private func setWebViewLayoutWithConstant(constant: CGFloat){
+    private func setWebViewLayoutWithConstant(){
         // Delegateの設定
         webView.uiDelegate = self
         webView.navigationDelegate = self
@@ -251,6 +265,17 @@ class ViewController: UIViewController, WKUIDelegate, WKNavigationDelegate, WKSc
     }
     
     
+    //____________________________________________________________
+    // Printデバッグ用
+    func printDebug(liner: String, content: String) {
+        print("「\( liner )」= \n" +
+            "\( content )\n" +
+            "______________________________\n"
+        )
+        
+    }
+    
+   
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
