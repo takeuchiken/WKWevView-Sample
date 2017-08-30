@@ -82,7 +82,7 @@ class ViewController: UIViewController, WKUIDelegate, WKNavigationDelegate, WKSc
         setWebViewLayoutWithConstant()
         
         printDebug(liner: "＠func viewDidLoad", content: "初期化終了")
-
+        
         // ページのロード
         // 外部URLにアクセス→停止中
         //loadAddressURL(siteUrl: targetURL)
@@ -94,18 +94,15 @@ class ViewController: UIViewController, WKUIDelegate, WKNavigationDelegate, WKSc
     
     //____________________________________________________________
     // 外部URLを読み込む場合
-    private func loadAddressURL(siteUrl: String) {
-        let requestURL: URL = NSURL(string: siteUrl)! as URL
-        let req = URLRequest(url: requestURL as URL)   // 外部のURLを読み込む場合（httpの場合Info.plistにNSAppTransportSecurityの指定が必要）
+    private func loadAddressURL(siteURL: String) {
+        let req = URLRequest(url: NSURL(string: siteURL)! as URL)   // 外部のURLを読み込む場合（httpの場合Info.plistにNSAppTransportSecurityの指定が必要）
         webView.load(req)
     }
     
     //____________________________________________________________
     // ローカルリソースを読み込む場合
     private func loadLocalFileURL(path: String, ext: String) {
-        let targetURL: URL = Bundle.main.url(forResource: path, withExtension: ext)!
-        let req = URLRequest(url: targetURL as URL)
-        
+        let req = URLRequest(url: Bundle.main.url(forResource: path, withExtension: ext)! as URL)
         webView.load(req)
     }
     
@@ -140,8 +137,7 @@ class ViewController: UIViewController, WKUIDelegate, WKNavigationDelegate, WKSc
     // 外部ローカルのJavaScriptファイルを読み込む
     private func jsLoadFile(path: String, ext: String) -> NSString {
         var jsSource = ""
-        let targetURL: URL = Bundle.main.url(forResource: path, withExtension: ext)!
-        if let data = NSData(contentsOf: targetURL as URL){
+        if let data = NSData(contentsOf: Bundle.main.url(forResource: path, withExtension: ext)! as URL){
             jsSource = String(NSString(data: data as Data, encoding: String.Encoding.utf8.rawValue)!)
         }
         printDebug(liner: "jsSource＠func jsLoadFile", content: "jsSource")
@@ -162,7 +158,7 @@ class ViewController: UIViewController, WKUIDelegate, WKNavigationDelegate, WKSc
         
         webView = WKWebView(frame: view.bounds, configuration: configuration)
         printDebug(liner: "＠func jsSetHandler", content: "")
-
+        
     }
     
     /*
@@ -175,8 +171,8 @@ class ViewController: UIViewController, WKUIDelegate, WKNavigationDelegate, WKSc
             //
             self.printDebug(liner: "jsEvaluate",
                             content: "script=「\(String(describing: script))」\n" +
-                            "result=「\(String(describing: result))」\n" +
-                            "error=「\(String(describing: error))」"
+                                "result=「\(String(describing: result))」\n" +
+                "error=「\(String(describing: error))」"
             )
         })
     }
@@ -195,7 +191,7 @@ class ViewController: UIViewController, WKUIDelegate, WKNavigationDelegate, WKSc
                           decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
         
         printDebug(liner: "「＠func webView Start」\n", content: "")
-
+        
         var policy = WKNavigationActionPolicy.allow
         if let url = navigationAction.request.url?.absoluteString {
             printDebug(liner: "String url", content: "「\(String(describing: url))」")
@@ -222,12 +218,12 @@ class ViewController: UIViewController, WKUIDelegate, WKNavigationDelegate, WKSc
         }
         decisionHandler(policy)
         printDebug(liner: "「＠func webView End」", content:"")
-
+        
     }
     
     
     
-
+    
     // ## 戻るボタンの実装
     // TODO:調査
     //  前のページに戻るためには、goForward()ではなぜかうまく動かなかった。以下のようにするとうまく動く。
@@ -275,7 +271,7 @@ class ViewController: UIViewController, WKUIDelegate, WKNavigationDelegate, WKSc
         
     }
     
-   
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
