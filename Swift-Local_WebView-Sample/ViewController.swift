@@ -94,18 +94,15 @@ class ViewController: UIViewController, WKUIDelegate, WKNavigationDelegate, WKSc
     
     //____________________________________________________________
     // 外部URLを読み込む場合
-    private func loadAddressURL(siteUrl: String) {
-        let requestURL: URL = NSURL(string: siteUrl)! as URL
-        let req = URLRequest(url: requestURL as URL)   // 外部のURLを読み込む場合（httpの場合Info.plistにNSAppTransportSecurityの指定が必要）
+    private func loadAddressURL(siteURL: String) {
+        let req = URLRequest(url: NSURL(string: siteURL)! as URL)   // 外部のURLを読み込む場合（httpの場合Info.plistにNSAppTransportSecurityの指定が必要）
         webView.load(req)
     }
     
     //____________________________________________________________
     // ローカルリソースを読み込む場合
     private func loadLocalFileURL(path: String, ext: String) {
-        let targetURL: URL = Bundle.main.url(forResource: path, withExtension: ext)!
-        let req = URLRequest(url: targetURL as URL)
-        
+        let req = URLRequest(url: Bundle.main.url(forResource: path, withExtension: ext)! as URL)
         webView.load(req)
     }
     
@@ -140,8 +137,7 @@ class ViewController: UIViewController, WKUIDelegate, WKNavigationDelegate, WKSc
     // 外部ローカルのJavaScriptファイルを読み込む
     private func jsLoadFile(path: String, ext: String) -> NSString {
         var jsSource = ""
-        let targetURL: URL = Bundle.main.url(forResource: path, withExtension: ext)!
-        if let data = NSData(contentsOf: targetURL as URL){
+        if let data = NSData(contentsOf: Bundle.main.url(forResource: path, withExtension: ext)! as URL){
             jsSource = String(NSString(data: data as Data, encoding: String.Encoding.utf8.rawValue)!)
         }
         printDebug(liner: "jsSource＠func jsLoadFile", content: "jsSource")
