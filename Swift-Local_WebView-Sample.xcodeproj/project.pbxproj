@@ -16,9 +16,15 @@
 		43D09B851F431D90001A443A /* Swift_Local_WebView_SampleUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D09B841F431D90001A443A /* Swift_Local_WebView_SampleUITests.swift */; };
 		43D09B941F431D9E001A443A /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43D09B931F431D9E001A443A /* WebKit.framework */; };
 		43D09B9A1F43217F001A443A /* GetNativeValues.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D09B991F43217F001A443A /* GetNativeValues.swift */; };
+<<<<<<< HEAD
 		43D09C291F5BFB0A001A443A /* Document in Resources */ = {isa = PBXBuildFile; fileRef = 43D09C281F5BFB0A001A443A /* Document */; };
 		43D09C2F1F5BFB89001A443A /* Library in Resources */ = {isa = PBXBuildFile; fileRef = 43D09C2E1F5BFB89001A443A /* Library */; };
 		43D09C311F5BFB97001A443A /* tmp in Resources */ = {isa = PBXBuildFile; fileRef = 43D09C301F5BFB97001A443A /* tmp */; };
+=======
+		43D09C331F5C2327001A443A /* Document in Resources */ = {isa = PBXBuildFile; fileRef = 43D09C321F5C2327001A443A /* Document */; };
+		43D09C351F5C2332001A443A /* Library in Resources */ = {isa = PBXBuildFile; fileRef = 43D09C341F5C2332001A443A /* Library */; };
+		43D09C371F5C233C001A443A /* tmp in Resources */ = {isa = PBXBuildFile; fileRef = 43D09C361F5C233C001A443A /* tmp */; };
+>>>>>>> origin/Improved_Ver.0.0.1
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,9 +60,15 @@
 		43D09B861F431D90001A443A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		43D09B931F431D9E001A443A /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		43D09B991F43217F001A443A /* GetNativeValues.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GetNativeValues.swift; sourceTree = "<group>"; };
+<<<<<<< HEAD
 		43D09C281F5BFB0A001A443A /* Document */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Document; path = ../../../Document; sourceTree = "<group>"; };
 		43D09C2E1F5BFB89001A443A /* Library */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Library; path = ../../../Library; sourceTree = "<group>"; };
 		43D09C301F5BFB97001A443A /* tmp */ = {isa = PBXFileReference; lastKnownFileType = folder; name = tmp; path = ../../../tmp; sourceTree = "<group>"; };
+=======
+		43D09C321F5C2327001A443A /* Document */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Document; path = ../../../Document; sourceTree = "<group>"; };
+		43D09C341F5C2332001A443A /* Library */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Library; path = ../../../Library; sourceTree = "<group>"; };
+		43D09C361F5C233C001A443A /* tmp */ = {isa = PBXFileReference; lastKnownFileType = folder; name = tmp; path = ../../../tmp; sourceTree = "<group>"; };
+>>>>>>> origin/Improved_Ver.0.0.1
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,9 +121,15 @@
 		43D09B631F431D90001A443A /* Swift-Local_WebView-Sample */ = {
 			isa = PBXGroup;
 			children = (
+<<<<<<< HEAD
 				43D09C301F5BFB97001A443A /* tmp */,
 				43D09C2E1F5BFB89001A443A /* Library */,
 				43D09C281F5BFB0A001A443A /* Document */,
+=======
+				43D09C361F5C233C001A443A /* tmp */,
+				43D09C341F5C2332001A443A /* Library */,
+				43D09C321F5C2327001A443A /* Document */,
+>>>>>>> origin/Improved_Ver.0.0.1
 				43D09B641F431D90001A443A /* AppDelegate.swift */,
 				43D09B661F431D90001A443A /* ViewController.swift */,
 				43D09B681F431D90001A443A /* Main.storyboard */,
@@ -256,11 +274,19 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+<<<<<<< HEAD
 				43D09C2F1F5BFB89001A443A /* Library in Resources */,
 				43D09B6F1F431D90001A443A /* LaunchScreen.storyboard in Resources */,
 				43D09C311F5BFB97001A443A /* tmp in Resources */,
 				43D09B6C1F431D90001A443A /* Assets.xcassets in Resources */,
 				43D09C291F5BFB0A001A443A /* Document in Resources */,
+=======
+				43D09C351F5C2332001A443A /* Library in Resources */,
+				43D09B6F1F431D90001A443A /* LaunchScreen.storyboard in Resources */,
+				43D09C371F5C233C001A443A /* tmp in Resources */,
+				43D09B6C1F431D90001A443A /* Assets.xcassets in Resources */,
+				43D09C331F5C2327001A443A /* Document in Resources */,
+>>>>>>> origin/Improved_Ver.0.0.1
 				43D09B6A1F431D90001A443A /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
