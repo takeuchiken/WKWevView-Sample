@@ -15,8 +15,10 @@
 		43D09B7A1F431D90001A443A /* Swift_Local_WebView_SampleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D09B791F431D90001A443A /* Swift_Local_WebView_SampleTests.swift */; };
 		43D09B851F431D90001A443A /* Swift_Local_WebView_SampleUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D09B841F431D90001A443A /* Swift_Local_WebView_SampleUITests.swift */; };
 		43D09B941F431D9E001A443A /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43D09B931F431D9E001A443A /* WebKit.framework */; };
-		43D09B981F431EF5001A443A /* LocalResouces in Resources */ = {isa = PBXBuildFile; fileRef = 43D09B971F431EF5001A443A /* LocalResouces */; };
 		43D09B9A1F43217F001A443A /* GetNativeValues.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D09B991F43217F001A443A /* GetNativeValues.swift */; };
+		43D09C291F5BFB0A001A443A /* Document in Resources */ = {isa = PBXBuildFile; fileRef = 43D09C281F5BFB0A001A443A /* Document */; };
+		43D09C2F1F5BFB89001A443A /* Library in Resources */ = {isa = PBXBuildFile; fileRef = 43D09C2E1F5BFB89001A443A /* Library */; };
+		43D09C311F5BFB97001A443A /* tmp in Resources */ = {isa = PBXBuildFile; fileRef = 43D09C301F5BFB97001A443A /* tmp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,8 +53,10 @@
 		43D09B841F431D90001A443A /* Swift_Local_WebView_SampleUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Swift_Local_WebView_SampleUITests.swift; sourceTree = "<group>"; };
 		43D09B861F431D90001A443A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		43D09B931F431D9E001A443A /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
-		43D09B971F431EF5001A443A /* LocalResouces */ = {isa = PBXFileReference; lastKnownFileType = folder; name = LocalResouces; path = ../../../LocalResouces; sourceTree = "<group>"; };
 		43D09B991F43217F001A443A /* GetNativeValues.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GetNativeValues.swift; sourceTree = "<group>"; };
+		43D09C281F5BFB0A001A443A /* Document */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Document; path = ../../../Document; sourceTree = "<group>"; };
+		43D09C2E1F5BFB89001A443A /* Library */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Library; path = ../../../Library; sourceTree = "<group>"; };
+		43D09C301F5BFB97001A443A /* tmp */ = {isa = PBXFileReference; lastKnownFileType = folder; name = tmp; path = ../../../tmp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,7 +109,9 @@
 		43D09B631F431D90001A443A /* Swift-Local_WebView-Sample */ = {
 			isa = PBXGroup;
 			children = (
-				43D09B971F431EF5001A443A /* LocalResouces */,
+				43D09C301F5BFB97001A443A /* tmp */,
+				43D09C2E1F5BFB89001A443A /* Library */,
+				43D09C281F5BFB0A001A443A /* Document */,
 				43D09B641F431D90001A443A /* AppDelegate.swift */,
 				43D09B661F431D90001A443A /* ViewController.swift */,
 				43D09B681F431D90001A443A /* Main.storyboard */,
@@ -250,9 +256,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				43D09C2F1F5BFB89001A443A /* Library in Resources */,
 				43D09B6F1F431D90001A443A /* LaunchScreen.storyboard in Resources */,
-				43D09B981F431EF5001A443A /* LocalResouces in Resources */,
+				43D09C311F5BFB97001A443A /* tmp in Resources */,
 				43D09B6C1F431D90001A443A /* Assets.xcassets in Resources */,
+				43D09C291F5BFB0A001A443A /* Document in Resources */,
 				43D09B6A1F431D90001A443A /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -527,6 +535,7 @@
 				43D09B8B1F431D90001A443A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		43D09B8C1F431D90001A443A /* Build configuration list for PBXNativeTarget "Swift-Local_WebView-SampleTests" */ = {
 			isa = XCConfigurationList;
@@ -535,6 +544,7 @@
 				43D09B8E1F431D90001A443A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		43D09B8F1F431D90001A443A /* Build configuration list for PBXNativeTarget "Swift-Local_WebView-SampleUITests" */ = {
 			isa = XCConfigurationList;
@@ -543,6 +553,7 @@
 				43D09B911F431D90001A443A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
