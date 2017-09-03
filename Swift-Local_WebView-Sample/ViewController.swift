@@ -46,13 +46,12 @@ class ViewController: UIViewController, WKUIDelegate, WKNavigationDelegate, WKSc
         printDebug(liner: "＠func loadView", content: "Start")
         
         //定数定義 @func loadView ______________________________
-        let preLoadJSFilePath: String = "./LocalResouces/default/common/js/PreLoad"
+        let preLoadJSFilePath: String = "/Library/LocalResouces/default/common/js/PreLoad"
         let preLoadJSFileExt: String = "js"
         
         //______________________________ 定数定義 @func loadView
         
         // ## ドキュメント読み込み終了時に JavaScript を実行する
-        //let preLoadJS = jsLoadFile(path: preLoadJSFilePath, ext: preLoadJSFileExt)
         jsSetHandler(jsSource: jsLoadFile(path: preLoadJSFilePath, ext: preLoadJSFileExt) as String)
         
     }
@@ -67,7 +66,7 @@ class ViewController: UIViewController, WKUIDelegate, WKNavigationDelegate, WKSc
         // 外部URLを読み込む場合 #func loadAddressURL
         //let targetURL = "http://www.yahoo.co.jp"  //使わないのでコメントアウト
         // ローカルリソースを読み込む場合  #func loadLocalFileURL
-        let localPath: String = "./LocalResouces/default/index"
+        let localPath: String = "/Library/LocalResouces/default/index"
         let fileExt: String = ".html"
         
         //______________________________ 定数定義 @func viewDidLoad
@@ -137,7 +136,9 @@ class ViewController: UIViewController, WKUIDelegate, WKNavigationDelegate, WKSc
     // 外部ローカルのJavaScriptファイルを読み込む
     private func jsLoadFile(path: String, ext: String) -> NSString {
         var jsSource = ""
-        if let data = NSData(contentsOf: Bundle.main.url(forResource: path, withExtension: ext)! as URL){
+        let url = Bundle.main.url(forResource: path, withExtension: ext)! as URL
+        printDebug(liner: "url", content: String(describing: url))
+        if let data = NSData(contentsOf: url as URL){
             jsSource = String(NSString(data: data as Data, encoding: String.Encoding.utf8.rawValue)!)
         }
         printDebug(liner: "jsSource＠func jsLoadFile", content: "jsSource")
