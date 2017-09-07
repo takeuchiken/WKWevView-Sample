@@ -92,6 +92,34 @@ class ViewController: UIViewController, WKUIDelegate, WKNavigationDelegate, WKSc
     
     
     //____________________________________________________________
+    // webViewのセットアップ
+    func setupWKWebView() {
+		let configuration = WKWebViewConfiguration()
+		
+		// 共有しているprocessPoolを使う
+		configuration.processPool = WKCookieStorage.shared.sharedProcessPool
+		
+		let webView = WKWebView(frame: .zero, configuration: configuration)
+		
+		webView.translatesAutoresizingMaskIntoConstraints = false
+		
+		view.addSubview(webView)
+		
+		NSLayoutConstraint.activate(
+			[
+				webView.topAnchor.constraint(equalTo: view.topAnchor),
+				webView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+				webView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+				webView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+			]
+		)
+		
+		self.webView = webView
+    }
+
+
+
+    //____________________________________________________________
     // 外部URLを読み込む場合
     private func loadAddressURL(siteURL: String) {
         let req = URLRequest(url: NSURL(string: siteURL)! as URL)   // 外部のURLを読み込む場合（httpの場合Info.plistにNSAppTransportSecurityの指定が必要）
